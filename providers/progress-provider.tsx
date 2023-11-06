@@ -1,22 +1,23 @@
-'use client'
+"use client";
 
-import { useState, useEffect } from "react"
-import ProgressModel from "@/components/modals/progress-model"
+import { useState, useEffect } from "react";
+import ProgressModel from "@/components/modals/progress-model";
 
 const ProgressProvider = () => {
-    const [isMounted, setIsMounted] = useState(false)
-    useEffect(()=>{
-        setIsMounted(true)
-    },[])
+  const [isMounted, setIsMounted] = useState(false);
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
 
-    if (!isMounted) {
-        return null
-    }
+  if (!isMounted) {
+    return null;
+  }
+
   return (
     <>
-    <ProgressModel/>
+      <ProgressModel />
     </>
-  )
-}
+  );
+};
 
-export default ProgressProvider
+export default ProgressProvider;

@@ -5,7 +5,18 @@ import { cn } from "@/lib/utils";
 import Link from "next/link";
 import { useParams, usePathname } from "next/navigation";
 import { useEffect } from "react";
-
+import { Button } from "./ui/button";
+import { Menu } from "lucide-react";
+import { UserButton } from "@clerk/nextjs";
+import { ModeToggle } from "./theme-toggle";
+import {
+  Sheet,
+  SheetClose,
+  SheetContent,
+  SheetTrigger,
+  SheetHeader,
+  SheetFooter,
+} from "./ui/sheet";
 function MainNav({ className }: React.HtmlHTMLAttributes<HTMLElement>) {
   const pathname = usePathname();
   const params = useParams();
@@ -25,6 +36,7 @@ function MainNav({ className }: React.HtmlHTMLAttributes<HTMLElement>) {
       href: `/${params.storeId}/categories`,
       label: "Categories",
       active: pathname === `/${params.storeId}/categories`,
+
     },
     {
       href: `/${params.storeId}/sizes`,
@@ -35,11 +47,13 @@ function MainNav({ className }: React.HtmlHTMLAttributes<HTMLElement>) {
       href: `/${params.storeId}/colors`,
       label: "Colors",
       active: pathname === `/${params.storeId}/colors`,
+      mobileId: 5
     },
     {
       href: `/${params.storeId}/products`,
       label: "Products",
       active: pathname === `/${params.storeId}/products`,
+
     },
     {
       href: `/${params.storeId}/orders`,
@@ -54,37 +68,81 @@ function MainNav({ className }: React.HtmlHTMLAttributes<HTMLElement>) {
   ];
   useEffect(() => {
     if (routes.some((route) => route.active)) {
-      progress.onChange()
-     const timer = setTimeout(() => {
+      progress.onChange();
+      const timer = setTimeout(() => {
         progress.onClose();
       }, 500);
-      return () => clearTimeout(timer)
+      return () => clearTimeout(timer);
     }
   }, [pathname]);
-  
-  
+
   return (
-    <nav className={cn("flex items-center space-x-4 lg:space-x-6", className)}>
-      {routes.map((route) => (
-        <Link
-          href={route.href}
-          key={route.href}
-          onClick={() => {
-            if (route.active === false) {
-              progress.onOpen();
-            }
-          }}
-          className={cn(
-            "text-sm font-bold transition-colors hover:text-primary",
-            route.active
-              ? "text-black dark:text-white"
-              : "text-muted-foreground"
-          )}
-        >
-          {route.label}
-        </Link>
-      ))}
-    </nav>
+    <div className="flex justify-between">
+      <nav
+        className={cn(
+          "items-center space-x-4 lg:space-x-6 hidden lg:flex",
+          className
+        )}
+      >
+        {routes.map((route) => (
+          <Link
+            href={route.href}
+            key={route.href}
+            onClick={() => {
+              if (route.active === false) {
+                progress.onOpen();
+              }
+            }}
+            className={cn(
+              "text-sm font-bold transition-colors hover:text-primary",
+              route.active
+                ? "text-black dark:text-white"
+                : "text-muted-foreground"
+            )}
+          >
+            {route.label}
+          </Link>
+        ))}
+      </nav>
+      <Sheet>
+        <SheetTrigger asChild>
+          <Button className="flex items-center gap-x-2 lg:hidden">
+            <Menu size={20} />
+          </Button>
+        </SheetTrigger>
+        <SheetContent className="py-12">
+          <SheetHeader>
+            <ModeToggle />
+          </SheetHeader>
+          <div className="space-y-4 space-x-2 my-6">
+            {routes.map((route) => (
+              <Button variant={"outline"}>
+                <Link
+                  href={route.href}
+                  key={route.href}
+                  onClick={() => {
+                    if (route.active === false) {
+                      progress.onOpen();
+                    }
+                  }}
+                  className={cn(
+                    "text-sm font-bold transition-colors hover:text-primary",
+                    route.active
+                      ? "text-black dark:text-white"
+                      : "text-muted-foreground"
+                  )}
+                >
+                  {route.label}
+                </Link>
+              </Button>
+            ))}
+          </div>
+          <SheetFooter>
+            <UserButton afterSignOutUrl="/"></UserButton>
+          </SheetFooter>
+        </SheetContent>
+      </Sheet>
+    </div>
   );
 }
 

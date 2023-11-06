@@ -14,6 +14,6 @@ export const useProgressModel = create<useProgressModel>((set)=> ({
     value: 0,
     onChange: () => set({ Url: true }),
     onOpen: () => set({ isOpen: true}),
-    onClose: () => set({ isOpen: false,Url: false}),
+    onClose: () => set({ isOpen: false, Url: false}),
     Url: false
 }))

@@ -21,7 +21,7 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
-
+  const progressModel = true
   
   return (
     <ClerkProvider>
@@ -29,7 +29,7 @@ export default function RootLayout({
         <body className={Roboto.className}>
           <ThemeProvider attribute="class" defaultTheme="dark" enableSystem>
             <ModelProvider></ModelProvider>
-            <ProgressProvider/>
+            <ProgressProvider />
             <ToasterProvider></ToasterProvider>
             {children}
           </ThemeProvider>
