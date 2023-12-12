@@ -21,7 +21,6 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const progressModel = true
   
   return (
     <ClerkProvider>

@@ -7,11 +7,11 @@ import { useParams, usePathname } from "next/navigation";
 import { useEffect } from "react";
 import { Button } from "./ui/button";
 import { Menu } from "lucide-react";
-import { UserButton } from "@clerk/nextjs";
+import { UserButton, UserProfile } from "@clerk/nextjs";
 import { ModeToggle } from "./theme-toggle";
+import { dark } from "@clerk/themes";
 import {
   Sheet,
-  SheetClose,
   SheetContent,
   SheetTrigger,
   SheetHeader,
@@ -21,6 +21,9 @@ function MainNav({ className }: React.HtmlHTMLAttributes<HTMLElement>) {
   const pathname = usePathname();
   const params = useParams();
   const progress = useProgressModel();
+  const UserProfilePage = () => (
+    <UserProfile path="/user-profile" routing="path" />
+  );
   const routes = [
     {
       href: `/${params.storeId}`,
@@ -36,7 +39,6 @@ function MainNav({ className }: React.HtmlHTMLAttributes<HTMLElement>) {
       href: `/${params.storeId}/categories`,
       label: "Categories",
       active: pathname === `/${params.storeId}/categories`,
-
     },
     {
       href: `/${params.storeId}/sizes`,
@@ -47,13 +49,12 @@ function MainNav({ className }: React.HtmlHTMLAttributes<HTMLElement>) {
       href: `/${params.storeId}/colors`,
       label: "Colors",
       active: pathname === `/${params.storeId}/colors`,
-      mobileId: 5
+      mobileId: 5,
     },
     {
       href: `/${params.storeId}/products`,
       label: "Products",
       active: pathname === `/${params.storeId}/products`,
-
     },
     {
       href: `/${params.storeId}/orders`,
@@ -138,7 +139,13 @@ function MainNav({ className }: React.HtmlHTMLAttributes<HTMLElement>) {
             ))}
           </div>
           <SheetFooter>
-            <UserButton afterSignOutUrl="/"></UserButton>
+            <UserButton
+              afterSignOutUrl="/"
+              appearance={{
+                baseTheme: dark,
+              }}          
+            >
+            </UserButton>
           </SheetFooter>
         </SheetContent>
       </Sheet>
