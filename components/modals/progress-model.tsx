@@ -16,7 +16,7 @@ const ProgressModel = () => {
     } else {
       setProgress(0);
     }
-  }, [paramName, progress]);
+  }, [paramName, progress, progressModel.isOpen]);
 
   useEffect(() => {
     if (progressModel.isOpen) {

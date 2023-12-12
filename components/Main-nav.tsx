@@ -4,7 +4,7 @@ import { useProgressModel } from "@/hooks/use-progress-model";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
 import { useParams, usePathname } from "next/navigation";
-import { useEffect } from "react";
+import { useEffect, useMemo } from "react";
 import { Button } from "./ui/button";
 import { Menu } from "lucide-react";
 import { UserButton, UserProfile } from "@clerk/nextjs";
@@ -24,7 +24,7 @@ function MainNav({ className }: React.HtmlHTMLAttributes<HTMLElement>) {
   const UserProfilePage = () => (
     <UserProfile path="/user-profile" routing="path" />
   );
-  const routes = [
+  const routes = useMemo(()=> [
     {
       href: `/${params.storeId}`,
       label: "Overview",
@@ -66,7 +66,7 @@ function MainNav({ className }: React.HtmlHTMLAttributes<HTMLElement>) {
       label: "Settings",
       active: pathname === `/${params.storeId}/settings`,
     },
-  ];
+  ],[params.storeId, pathname]);
   useEffect(() => {
     if (routes.some((route) => route.active)) {
       progress.onChange();
@@ -75,7 +75,7 @@ function MainNav({ className }: React.HtmlHTMLAttributes<HTMLElement>) {
       }, 500);
       return () => clearTimeout(timer);
     }
-  }, [pathname]);
+  }, [pathname, progress, routes]);
 
   return (
     <div className="flex justify-between">
@@ -116,11 +116,11 @@ function MainNav({ className }: React.HtmlHTMLAttributes<HTMLElement>) {
             <ModeToggle />
           </SheetHeader>
           <div className="space-y-4 space-x-2 my-6">
-            {routes.map((route) => (
-              <Button variant={"outline"}>
+            {routes.map((route, index) => (
+              <Button variant={"outline"} key={index}>
                 <Link
                   href={route.href}
-                  key={route.href}
+                  key={index}
                   onClick={() => {
                     if (route.active === false) {
                       progress.onOpen();
