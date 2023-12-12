@@ -67,16 +67,16 @@ function MainNav({ className }: React.HtmlHTMLAttributes<HTMLElement>) {
       active: pathname === `/${params.storeId}/settings`,
     },
   ],[params.storeId, pathname]);
+/* eslint-disable */
   useEffect(() => {
     if (routes.some((route) => route.active)) {
-      progress.onChange();
       const timer = setTimeout(() => {
         progress.onClose();
       }, 500);
       return () => clearTimeout(timer);
     }
-  }, [pathname, progress, routes]);
-
+  }, [pathname, routes]);
+/* eslint-enable */
   return (
     <div className="flex justify-between">
       <nav
